@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>business-data-controller</artifactId>
+
+	<packaging>war</packaging>
+
+	<parent>
+		<artifactId>business-data-root</artifactId>
+		<groupId>com.uestc</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<!--添加对service的依赖-->
+		<dependency>
+			<groupId>com.uestc</groupId>
+			<artifactId>business-data-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!--添加对model的依赖-->
+		<dependency>
+			<groupId>com.uestc</groupId>
+			<artifactId>business-data-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+	</dependencies>
+
+</project>

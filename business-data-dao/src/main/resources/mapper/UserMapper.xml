@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uestc.dao.mapper.UserMapper">
+
+    <!--在配置文件中配置过mybatis.type-aliases-package，否则要写全路径， <resultMap id="userMap" type="com.example.demo.dao.User">-->
+    <resultMap id="userMap" type="User">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="create_time" jdbcType="INTEGER" property="createTime"/>
+    </resultMap>
+    <sql id="columns">user_id,user_name,age,address,user_phone,create_time</sql>
+
+
+    <select id="selectUserByName" resultMap="userMap">
+        SELECT * FROM user WHERE user_name = #{name}
+        LIMIT 0,1
+    </select>
+
+    <!--根据主键查询-->
+    <select id="getById" resultMap="userMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="columns"/>
+        FROM user WHERE user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <!--根据条件查询-->
+    <!--查出在北京并且年龄大于三十的人-->
+    <!--获取客户信息-->
+    <select id="getUserInfo" parameterType="map" resultMap="userMap">
+        SELECT
+        <include refid="columns"/>
+        FROM user
+        <where>
+            <if test="age != 0 and age !=null">
+                AND age <![CDATA[ >= ]]> #{age}
+            </if>
+
+            <if test="address!=null">
+                AND address = #{address}
+            </if>
+        </where>
+
+    </select>
+
+
+    <!--根据条件查询数据总数-->
+    <select id="getCount" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM user
+    </select>
+
+    <!--插入-->
+    <insert id="add" parameterType="User">
+        INSERT INTO user (
+        user_name,age,address,user_phone
+        )VALUES(
+        #{userName,jdbcType=VARCHAR},#{age,jdbcType=INTEGER},#{address,jdbcType=VARCHAR},#{userPhone,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--批量插入-->
+    <insert id="batchAdd" parameterType="java.util.List" useGeneratedKeys="true">
+        INSERT INTO user (
+        user_name,age,address,user_phone
+        ) VALUES
+        <foreach separator="," index="index" item="item" collection="list">
+            (#{item.userName,jdbcType=VARCHAR},#{item.age,jdbcType=INTEGER},#{item.address,jdbcType=VARCHAR},#{item.userPhone,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!--根据条件删除-->
+    <delete id="remove" parameterType="map">
+        delete from user where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+
+    <!--根据id修改-->
+    <update id="update" parameterType="map">
+        UPDATE user set user_name = #{userName,jdbcType = VARCHAR},user_phone = #{userPhone,jdbcType=VARCHAR}
+        WHERE user_id = #{userId,jdbcType = INTEGER}
+    </update>
+
+</mapper>

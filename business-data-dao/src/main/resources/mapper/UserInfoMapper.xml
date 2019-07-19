@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uestc.dao.mapper.UserInfoMapper">
+
+    <resultMap id="userInfoMap" type="UserInfo">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="position" jdbcType="VARCHAR" property="position"/>
+        <result column="user_right" jdbcType="INTEGER" property="userRight"/>
+        <result column="create_time" jdbcType="INTEGER" property="createTime"/>
+    </resultMap>
+    <sql id="columns">user_id,user_name,account,password,user_phone,position,usre_right,create_time</sql>
+
+    <select id="getPassword" resultType="java.lang.String">
+        SELECT password FROM user_info WHERE account = #{account}
+    </select>
+
+    <select id="getUserList" resultMap="userInfoMap">
+        SELECT * FROM user_info WHERE user_id > 0
+    </select>
+
+
+</mapper>
+

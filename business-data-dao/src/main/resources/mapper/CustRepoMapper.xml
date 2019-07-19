@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uestc.dao.mapper.CustRepoMap">
+
+    <!--在配置文件中配置过mybatis.type-aliases-package，否则要写全路径， <resultMap id="userMap" type="com.example.demo.dao.User">-->
+    <resultMap id="CustRepoMap" type="CustRepo">
+        <id column="billmouth" jdbcType="VARCHAR" property="billmouth"/>
+        <result column="num_amt" jdbcType="INTEGER" property="num_amt"/>
+        <result column="num_repo" jdbcType="INTEGER" property="num_repo"/>
+        <result column="repo_rate" jdbcType="VARCHAR" property="repo_rate"/>
+    </resultMap>
+    <sql id="columns">billmouth,num_amt,num_repo,repo_rate</sql>
+
+
+    <select id="getCustRepoList" resultMap="CustRepoMap">
+        SELECT * FROM cust_repo where billmouth > 0
+    </select>
+
+
+</mapper>
